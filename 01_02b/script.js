@@ -8,25 +8,40 @@ import data from "./data.js";
 
 const mainContent = document.querySelector(".main-content");
 
-const Card = (data) => {
-  const imgData = data[0];
-  const date = new Date(imgData.created_at);
-
-  const markup = `
-    <figure class="image">
-      <img
-        srcset="
-          ${imgData.urls.full} ${imgData.width}w,
-          ${imgData.urls.regular} 1080w,
-          ${imgData.urls.small} 400w
-        "
+const buildImage = (imgData) => {
+  let srcset = `${imgData.urls.full} ${imgData.width}w`;
+  if (imgData.urls.regular) {
+    srcset = srcset + `, ${imgData.urls.regular} 1080w`;
+  }
+  if (imgData.urls.small) {
+    srcset = srcset + `, ${imgData.urls.small} 400w`;
+  }
+  const image = `<img
+        srcset="${srcset}"
         sizes="(max-width: 450px) 400px, (max-width: 800) 1080px"
         src="${imgData.urls.regular}"
         width="${imgData.width}"
         height="${imgData.height}"
         alt="${imgData.description}"
         loading="lazy"
-      />
+      />`;
+  return image;
+};
+
+const getDate = (imgData) => {
+  const date = new Date(imgData.created_at);
+  return date.toLocaleString("he-IL", {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+  });
+};
+
+const Card = (data) => {
+  const imgData = data[0];
+  const markup = `
+    <figure class="image">
+      ${buildImage(imgData)}
       <figcaption class="image__caption">
         <h3 class="image__title">${imgData.description}</h3>
         <div class="image__meta">
@@ -36,13 +51,9 @@ const Card = (data) => {
           </p>
           <p>
             Uploaded on
-            <time class="image__date" datetime="${imgData.created_at}">
-            ${date.toLocaleString("default", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-            </time>.
+          <time class="image__date" datetime="${imgData.created_at}">${getDate(
+    imgData
+  )}</time>.
           </p>
           <p>
             <a href="${imgData.links.self}" class="image__link">

@@ -23,16 +23,14 @@ const buildImage = (imgData) => {
 
 const getDate = (imgData) => {
   const date = new Date(imgData.created_at);
-  const niceDate = date.toLocaleString("default", {
+  return date.toLocaleString("he-IL", {
     year: "numeric",
-    month: "long",
+    month: "numeric",
     day: "numeric",
   });
-  return niceDate;
 };
 
-const Card = (data) => {
-  const imgData = data[0];
+const Card = (imgData) => {
 
   return `
     <figure class="image">
