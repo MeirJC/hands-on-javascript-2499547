@@ -57,8 +57,8 @@ const Card = (imgData) => {
           </p>
           <p>
             Uploaded on <time class="image__date" datetime="${createdDate}">${getDate(
-  createdDate
-)}</time>.
+    createdDate
+  )}</time>.
           </p>
           <p>
             <a href="${self}" class="image__link">
