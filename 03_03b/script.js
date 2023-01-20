@@ -6,6 +6,7 @@
  */
 
 import settings from "../settings.js";
+import weatherCard from "./components/weathercard.js";
 
 const tempField = document.querySelector(".getTemp");
 const windSpeed = document.querySelector(".getWSpeed");
@@ -20,9 +21,7 @@ const displayData = () => {
     })
     .then(function (data) {
       console.log(data);
-      tempField.innerHTML = data.main.temp;
-      windSpeed.innerHTML = data.wind.speed;
-      windDir.innerHTML = data.wind.deg;
+      document.querySelector(".main-content").innerHTML = weatherCard(data);
     });
 };
 
